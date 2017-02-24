@@ -1,5 +1,5 @@
 #please-define.js
-Script that make ``<select>`` with 'Other, please define' input.
+Script that allow ``<select>`` to have 'Other, please define' choice.
 
 สคริปต์สำหรับทำตัวเลือก 'อื่นๆ โปรดระบุ' อย่างง่าย
 
