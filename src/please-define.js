@@ -1,6 +1,6 @@
 /**
  * @name please-define.js
- * @version 1.0.0
+ * @version 1.0.1
  * @update Feb 24, 2017
  * @website https://github.com/earthchie/please-define.js
  * @author Earthchie http://www.earthchie.com/
@@ -130,12 +130,20 @@ window.PleaseDefine = window.PleaseDefine || function (SELECT, OPTIONS) {
     input = mask.getElementsByTagName('input')[0];
     
     SELECT.val = function (val) {
-        if (val) {
+        if (typeof val === 'string') {
             if (val !== '' || OPTIONS.required === false) {
-                var options = SELECT.getElementsByTagName('option');
+                var options = SELECT.getElementsByTagName('option'),
+                    exists = SELECT.querySelector('[value="' + val + '"]');
+                
+                if (exists) {
+                    exists = exists.innerHTML;
+                } else {
+                    exists = false;
+                }
+                
                 options[options.length - 1].value = val;
                 SELECT.value = val;
-                span.innerHTML = val || OPTIONS.label_empty;
+                span.innerHTML = exists || val || OPTIONS.label_empty;
                 triggerOnChange();
             } else {
                 if (SELECT.value === SELECT.querySelector('option:last-child').value) {
