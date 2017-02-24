@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Please Define</title>
+    
+    <link rel="stylesheet" href="dist/please-define.min.css">
+    
+    <style>
+    
+        html {
+          font-family: sans-serif;
+        }
+        pre{
+            background-color: #eee;
+            padding: 20px;
+        }
+        code{
+            background-color: #eee;
+        }
+        
+    </style>
+    
+</head>
+<body>
+    <h1>Tutorial / วิธีใช้</h1>
+    
+    <p>
+        1. Include <code>please-define.min.css</code> and <code>please-define.min.js</code> to your HTML
+    </p>
+    <p>
+        เพิ่ม <code>please-define.min.css</code> และ <code>please-define.min.js</code> ลงไปในไฟล์ HTML
+    </p>
+    <pre><code>&lt;link rel="stylesheet" href="please-define.min.css"&gt;
+&lt;script type="text/javascript" src="please-define.min.js"&gt;&lt;/script&gt;</code></pre>
+    
+    <p>
+        2. Create <code>&lt;select&gt;</code> element
+    </p>
+    
+    <p>
+        สร้าง <code>&lt;select&gt;</code> ตามปกติ 
+    </p>
+    
+    <pre><code>&lt;select name="country" id="please-define"&gt;
+  &lt;option value="THAILAND"&gt;Thailand&lt;/option&gt;
+  &lt;option value="USA"&gt;United States&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+  
+    <p>
+        3. Init it
+    </p>
+    
+    <p>
+        เรียกใช้งาน
+    </p>
+   
+    <pre><code>PleaseDefine(document.getElementById('please-define'));</code></pre>
+   
+    <!-- Demo 1 -->
+    <h1>Demo 1</h1>
+    
+    code:
+    <pre><code>PleaseDefine(document.getElementById('demo-1'));</code></pre>
+    
+    result:
+    <select name="country" id="demo-1">
+      <option></option>
+      <option value="THAILAND">Thailand</option>
+      <option value="USA">United States</option>
+    </select>
+    
+    <!-- End Demo 1 -->
+    
+    <!-- Demo 2 -->
+    
+    <h1>Demo 2</h1>
+    
+    
+    <p>
+        Configurable placeholder &amp; label
+    </p>
+    <p>
+        เปลี่ยน placeholder &amp; label ได้
+    </p>
+    
+    code:
+    <pre><code>PleaseDefine(document.getElementById('demo-2'), {
+    placeholder: 'อื่นๆ โปรดระบุ',
+    label_empty: '- กรุณาเลือก -'
+});</code></pre>
+    result:
+    <select name="country" id="demo-2">
+      <option></option>
+      <option value="THAILAND">Thailand</option>
+      <option value="USA">United States</option>
+    </select>
+    
+    <!-- End Demo 2 -->
+    
+    <!-- Demo 3 -->
+    
+    <h1>Demo 3</h1>
+    
+    <p>
+        Filter is the callback that will be called upon keyup event.<br>
+        This case, make use of it by transform value into uppercase.
+    </p>
+    <p>
+        มีฟังก์ชัน Filter ที่จะถูกเรียกเมื่อเกิดอีเว้นท์ keyup <br>
+        ในตัวอย่างนี้ จะประยุกต์ใช้ฟังก์ชันดังกล่าวเพื่อแปลงค่าที่กรอกมาเป็นตัวพิมพ์ใหญ่
+    </p>
+    
+    code:
+    <pre><code>PleaseDefine(document.getElementById('demo-3'), {
+    filter: function(val){
+        return val.toUpperCase();
+    }
+});</code></pre>
+    
+    result:
+    <select name="country" id="demo-3">
+      <option></option>
+      <option value="THAILAND">Thailand</option>
+      <option value="USA">United States</option>
+    </select>
+    
+    <!-- End Demo 3 -->
+    
+    <!-- Demo 4 -->
+    
+    <h1>Demo 4</h1>
+    
+    <p>
+        You can still listen to event in the vanilla manner.
+    </p>
+    <p>
+        ยังคงสามารถดัก event ได้เหมือนปกติ
+    </p>
+    
+    code:
+    <pre><code>var demo4 = document.getElementById('demo-4');
+demo4.onchange = function(){
+    alert(this.value);
+}
+PleaseDefine(demo4);</code></pre>
+   
+   result:
+   <select name="country" id="demo-4">
+      <option></option>
+      <option value="THAILAND">Thailand</option>
+      <option value="USA">United States</option>
+    </select>
+    
+    
+    <!-- End Demo 4 -->
+    
+    <!-- Demo 5 -->
+    
+    <h1>Demo 5</h1>
+    
+    <p>
+        Not allows to be empty (required)
+    </p>
+    <p>
+        บังคับกรอก ห้ามเว้นว่าง
+    </p>
+    
+    code:
+    <br>
+    <small>(defined by HTML5 attribute / กำหนดด้วยวิธีแบบ HTML5)</small>
+    <pre><code>&lt;select name="country" id="demo-5" <span style="color:red">required</span>&gt;
+  &lt;option value="THAILAND"&gt;Thailand&lt;/option&gt;
+  &lt;option value="USA"&gt;United States&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+   
+    result:
+    <select name="country" id="demo-5-1" required>
+      <option value="THAILAND">Thailand</option>
+      <option value="USA">United States</option>
+    </select>
+    
+    <p>or</p>
+    
+    code:
+    <br>
+    <small>(defined by option - this method has higher priority / กำหนดด้วยโค้ด - วิธีนี้จะมีลำดับความสำคัญสูงกว่าวิธีแรก)</small>
+    
+    <pre><code>PleaseDefine(document.getElementById('demo-5'),{
+    required: true
+});</code></pre>
+   
+    result:
+    <select name="country" id="demo-5-2">
+      <option value="THAILAND">Thailand</option>
+      <option value="USA">United States</option>
+    </select>
+    
+    <!-- End Demo 5 -->
+    
+    <!-- Demo 6 -->
+    <h1>Demo 6</h1>
+    
+    <p>Pre-defined value</p>
+    
+    <p>กำหนดค่าเริ่มต้น</p>
+    
+    code:
+    <pre><code>&lt;select name="country" id="demo-6"&gt;
+  &lt;option value="THAILAND"&gt;Thailand&lt;/option&gt;
+  &lt;option value="USA" <span style="color:red">selected</span>&gt;United States&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+    <pre><code>PleaseDefine(document.getElementById('demo-6'));</code></pre>
+    
+    result:
+    <select name="country" id="demo-6">
+      <option value="THAILAND">Thailand</option>
+      <option value="USA" selected>United States</option>
+    </select>
+    
+    <!-- End Demo 6 -->
+    
+    <!-- Demo 7 -->
+    <h1>Demo 7</h1>
+    
+    <p>Set value programmatically</p>
+    
+    <p>กำหนดค่าผ่านการเขียนโปรแกรม</p>
+    
+    code:
+    <pre><code>&lt;select name="country" id="demo-7"&gt;
+  &lt;option&gt;&lt;/option&gt;
+  &lt;option value="THAILAND"&gt;Thailand&lt;/option&gt;
+  &lt;option value="USA"&gt;United States&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+    
+    <pre><code>var demo7 = document.getElementById('demo-7');
+demo7 = PleaseDefine(demo7);
+
+document.getElementById('demo-7-setter').onclick = function(){
+    demo7.val('THAILAND');
+}</code></pre>
+    
+    result:
+    <br>
+    <button id="demo-7-setter">Click to set to `Thailand` / คลิกเพื่อกำหนดค่าเป็น `Thailand`</button>
+    <br>
+    <select name="country" id="demo-7">
+      <option></option>
+      <option value="THAILAND">Thailand</option>
+      <option value="USA">United States</option>
+    </select>
+    
+    <!-- End Demo 7 -->
+    
+    <!-- Demo 8 -->
+    
+    <h1>Demo 8</h1>
+    
+    <p>
+        Dropdown will automatically flip to top-side when there are not enough space left below.
+    </p>
+    
+    <p>
+        หากมีพื้นที่ด้านล่างเหลือไม่พอ มันจะสลับไปแสดงตัวเลือกจากด้านบนแทน
+    </p>
+    
+    code:
+    <pre><code>PleaseDefine(document.getElementById('demo-7'));</code></pre>
+    
+    result:
+    <select name="country" id="demo-8">
+      <option></option>
+      <option value="THAILAND">Thailand</option>
+      <option value="USA">United States</option>
+    </select>
+    
+    <!-- End Demo 8 -->
+    
+    <script src="dist/please-define.min.js"></script>
+    <script>
+        // demo 1
+        var demo1 = PleaseDefine(document.getElementById('demo-1'));
+        // end - demo 1
+        
+        // demo 2
+        var demo2 = PleaseDefine(document.getElementById('demo-2'), {
+            placeholder: 'อื่นๆ โปรดระบุ',
+            label_empty: '- กรุณาเลือก -'
+        });
+        // end - demo 2
+        
+        // demo 3
+        var demo3 = PleaseDefine(document.getElementById('demo-3'), {
+            filter: function(val){
+                return val.toUpperCase();
+            }
+        });
+        // end - demo 3
+        
+        // demo 4
+        var demo4 = document.getElementById('demo-4');
+        demo4.onchange = function(){
+            alert(this.value);
+        }
+        demo4 = PleaseDefine(demo4);
+        // end - demo 4
+        
+        // demo 5
+        var demo5_1 = PleaseDefine(document.getElementById('demo-5-1'));
+        var demo5_2 = PleaseDefine(document.getElementById('demo-5-2'), {
+            required: true
+        });
+        // end - demo 5
+        
+        // demo 6
+        var demo6 = PleaseDefine(document.getElementById('demo-6'));
+        // end - demo 6
+        
+        // demo 7
+        var demo7 = document.getElementById('demo-7');
+        demo7 = PleaseDefine(demo7);
+        
+        document.getElementById('demo-7-setter').onclick = function(){
+            demo7.val('THAILAND');
+        }
+        // end - demo 7
+        
+        // demo 8
+        var demo8 = PleaseDefine(document.getElementById('demo-8'));
+        // end - demo 6
+    </script>
+
+</body>
+</html>

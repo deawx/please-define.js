@@ -1,0 +1,75 @@
+.please-define {
+    width: 100%;
+    position: relative;
+    border: 1px solid rgba(0,0,0,.1);
+}
+
+.please-define > ul > li,
+.please-define > span {
+    position: relative;
+    box-sizing: border-box;
+    display: block;
+    font-size: 1em;
+    line-height: 2.4em;
+    background-color: white;
+    padding: 0.4em 1em;
+    cursor: pointer;
+    transition: background .3s;
+}
+
+.please-define span:after {
+    content: "▼";
+    display: block;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 10px;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    margin-top: -10px;
+}
+
+.please-define > ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: 9;
+    border: 1px solid rgba(0,0,0,.1);
+}
+
+
+.please-define.active > ul {
+    max-height: 1000px;
+}
+.please-define.flip > ul{
+    bottom: 100%;
+}
+
+.please-define > ul > li:first-child {
+    box-shadow: inset 0 5px 5px -5px rgba(0, 0, 0, .2);
+}
+
+.please-define.flip > ul > li:first-child {
+    box-shadow: none;
+    border-top: 0;
+}
+
+.please-define > ul > li {
+    border-top: 1px solid rgba(0, 0, 0, .1);
+}
+
+.please-define > ul > li:not(:last-child):hover {
+    background-color: #eee;
+}
+
+.please-define > ul > li > input {
+    width: 100%;
+    font-size: 1em;
+    border: 0;
+    outline: 0;
+}
