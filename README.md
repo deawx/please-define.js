@@ -5,3 +5,6 @@ Script that make ``<select>`` with 'Other, please define' input.
 
 #Document & Demo
 Please visit: https://earthchie.github.io/please-define.js/
+
+## License
+WTFPL 2.0 http://www.wtfpl.net/
