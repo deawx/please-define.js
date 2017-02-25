@@ -4,6 +4,14 @@
     border: 1px solid rgba(0,0,0,.1);
 }
 
+.please-define > span{
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 .please-define > ul > li,
 .please-define > span {
     position: relative;

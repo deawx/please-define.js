@@ -1,7 +1,7 @@
 /**
  * @name please-define.js
- * @version 1.0.1
- * @update Feb 24, 2017
+ * @version 1.1.0
+ * @update Feb 25, 2017
  * @website https://github.com/earthchie/please-define.js
  * @author Earthchie http://www.earthchie.com/
  * @license WTFPL v.2 - http://www.wtfpl.net/
@@ -10,12 +10,12 @@
 window.PleaseDefine = window.PleaseDefine || function (SELECT, OPTIONS) {
 
     'use strict';
-    
+
     OPTIONS = OPTIONS || {};
     OPTIONS.placeholder = OPTIONS.placeholder || 'Other, please define.';
     OPTIONS.required = OPTIONS.required || SELECT.getAttribute('required') === '';
     OPTIONS.label_empty = OPTIONS.label_empty || '- Please Choose -';
-    
+
     var val = SELECT.value,
         option_list = SELECT.getElementsByTagName('option'),
         mask = document.createElement('div'),
@@ -50,6 +50,26 @@ window.PleaseDefine = window.PleaseDefine || function (SELECT, OPTIONS) {
             };
         },
 
+        elementInViewport = function (el) {
+            var top = el.offsetTop;
+            var left = el.offsetLeft;
+            var width = el.offsetWidth;
+            var height = el.offsetHeight;
+
+            while (el.offsetParent) {
+                el = el.offsetParent;
+                top += el.offsetTop;
+                left += el.offsetLeft;
+            }
+
+            return (
+                top >= window.pageYOffset &&
+                left >= window.pageXOffset &&
+                (top + height) <= (window.pageYOffset + window.innerHeight) &&
+                (left + width) <= (window.pageXOffset + window.innerWidth)
+            );
+        },
+
         setClass = function (mask, className, isActive) {
             var classes = mask.getAttribute('class').split(' '),
                 indexOfActive = classes.indexOf(className);
@@ -71,14 +91,14 @@ window.PleaseDefine = window.PleaseDefine || function (SELECT, OPTIONS) {
         },
 
         setActive = function (mask, isActive) {
-
-            var belowSpace = document.body.offsetHeight - getOffset(mask).top - mask.offsetHeight;
-
+            
             setClass(mask, 'active', isActive);
+            
+            // flip side to top if options are not visible on viewport
+            setClass(mask, 'flip', false);
             setTimeout(function () {
-                var mask_height = mask.getElementsByTagName('ul')[0].offsetHeight;
-                setClass(mask, 'flip', belowSpace < mask_height);
-            }, 10);
+                setClass(mask, 'flip', !elementInViewport(input));
+            }, 1);
 
         },
 
@@ -88,28 +108,28 @@ window.PleaseDefine = window.PleaseDefine || function (SELECT, OPTIONS) {
                 SELECT.value = this.getAttribute('data-value');
                 span.innerHTML = this.innerHTML;
                 input.value = '';
-                
+
                 setActive(mask, false);
                 triggerOnChange();
 
             };
         };
-        /* End - Utils */
+    /* End - Utils */
 
 
     // prepare mask option
     for (i = 0; i < option_list.length; i = i + 1) {
-        if (option_list[i].value) {
+        if (option_list[i].innerHTML !== '') {
             mask_options += '<li data-value="' + option_list[i].value + '">' + option_list[i].innerHTML + '</li>';
         }
     }
-    
+
     // add <input> as last option
     mask_options += '<li><input type="text" placeholder="' + OPTIONS.placeholder + '"></li>';
-    
+
     // set class
     mask.setAttribute('class', 'please-define');
-    
+
     // set label to default value
     label = SELECT.querySelector('[value="' + SELECT.value + '"]');
     if (label === null) {
@@ -117,7 +137,7 @@ window.PleaseDefine = window.PleaseDefine || function (SELECT, OPTIONS) {
     } else {
         label = label.innerHTML;
     }
-    
+
     mask.innerHTML = '<span>' + label + '</span><ul>' + mask_options + '</ul>';
 
     insertAfter(mask, SELECT);
@@ -128,33 +148,33 @@ window.PleaseDefine = window.PleaseDefine || function (SELECT, OPTIONS) {
     span = mask.getElementsByTagName('span')[0];
     mask_options = mask.getElementsByTagName('li');
     input = mask.getElementsByTagName('input')[0];
-    
+
     SELECT.val = function (val) {
         if (typeof val === 'string') {
             if (val !== '' || OPTIONS.required === false) {
                 var options = SELECT.getElementsByTagName('option'),
                     exists = SELECT.querySelector('[value="' + val + '"]');
-                
+
                 if (exists) {
                     exists = exists.innerHTML;
                 } else {
                     exists = false;
                 }
-                
+
                 options[options.length - 1].value = val;
                 SELECT.value = val;
                 span.innerHTML = exists || val || OPTIONS.label_empty;
                 triggerOnChange();
             } else {
                 if (SELECT.value === SELECT.querySelector('option:last-child').value) {
-                    this.value = SELECT.value;
+                    input.value = SELECT.value;
                 }
             }
         } else {
             return SELECT.value;
         }
     };
-    
+
     window.onclick = function () {
         var activeMask = document.querySelector('.please-define.active');
         if (activeMask !== null) {
@@ -179,7 +199,7 @@ window.PleaseDefine = window.PleaseDefine || function (SELECT, OPTIONS) {
     for (i = 0; i < mask_options.length - 1; i = i + 1) {
         optionOnClick(mask_options[i]);
     }
-    
+
     input.onkeyup = function (e) {
         var val = this.value,
             keyCode = e.keyCode || e.which,
@@ -200,6 +220,6 @@ window.PleaseDefine = window.PleaseDefine || function (SELECT, OPTIONS) {
 
         }
     };
-    
+
     return SELECT;
 };
