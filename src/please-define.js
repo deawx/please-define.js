@@ -1,7 +1,7 @@
 /**
  * @name please-define.js
- * @version 1.1.0
- * @update Feb 25, 2017
+ * @version 1.1.1
+ * @update Apr 11, 2017
  * @website https://github.com/earthchie/please-define.js
  * @author Earthchie http://www.earthchie.com/
  * @license WTFPL v.2 - http://www.wtfpl.net/
@@ -177,6 +177,7 @@ window.PleaseDefine = window.PleaseDefine || function (SELECT, OPTIONS) {
 
     window.onclick = function () {
         var activeMask = document.querySelector('.please-define.active');
+        console.log(activeMask);
         if (activeMask !== null) {
             setActive(activeMask, false);
         }
@@ -184,6 +185,7 @@ window.PleaseDefine = window.PleaseDefine || function (SELECT, OPTIONS) {
 
     mask.onclick = function (e) {
         e.stopPropagation();
+        
         var activeMask = document.querySelectorAll('.please-define.active');
         for (i = 0; i < activeMask.length; i = i + 1) {
             if (activeMask[i] !== mask) {
@@ -193,7 +195,11 @@ window.PleaseDefine = window.PleaseDefine || function (SELECT, OPTIONS) {
     };
 
     span.onclick = function (e) {
-        setActive(mask, 'toggle');
+        
+        setTimeout(function(){
+            setActive(mask, 'toggle');
+        }, 1);
+        
     };
 
     for (i = 0; i < mask_options.length - 1; i = i + 1) {
