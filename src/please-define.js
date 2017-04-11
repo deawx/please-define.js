@@ -1,6 +1,6 @@
 /**
  * @name please-define.js
- * @version 1.1.1
+ * @version 1.1.2
  * @update Apr 11, 2017
  * @website https://github.com/earthchie/please-define.js
  * @author Earthchie http://www.earthchie.com/
@@ -71,23 +71,16 @@ window.PleaseDefine = window.PleaseDefine || function (SELECT, OPTIONS) {
         },
 
         setClass = function (mask, className, isActive) {
-            var classes = mask.getAttribute('class').split(' '),
-                indexOfActive = classes.indexOf(className);
+            var classes = mask.getAttribute('class').split(' ').filter(function(c){
+                    return c !== '';
+                }), indexOfActive = classes.indexOf(className);
 
             delete classes[indexOfActive];
 
-            if (isActive === 'toggle') {
-                if (indexOfActive > -1) {
-                    setClass(mask, className, false);
-                } else {
-                    setClass(mask, className, true);
-                }
-            } else {
-                if (isActive === true) {
-                    classes.push(className);
-                }
-                mask.setAttribute('class', classes.join(' '));
+            if (isActive === true) {
+                classes.push(className);
             }
+            mask.setAttribute('class', classes.join(' '));
         },
 
         setActive = function (mask, isActive) {
@@ -177,7 +170,6 @@ window.PleaseDefine = window.PleaseDefine || function (SELECT, OPTIONS) {
 
     window.onclick = function () {
         var activeMask = document.querySelector('.please-define.active');
-        console.log(activeMask);
         if (activeMask !== null) {
             setActive(activeMask, false);
         }
@@ -185,7 +177,6 @@ window.PleaseDefine = window.PleaseDefine || function (SELECT, OPTIONS) {
 
     mask.onclick = function (e) {
         e.stopPropagation();
-        
         var activeMask = document.querySelectorAll('.please-define.active');
         for (i = 0; i < activeMask.length; i = i + 1) {
             if (activeMask[i] !== mask) {
@@ -195,10 +186,15 @@ window.PleaseDefine = window.PleaseDefine || function (SELECT, OPTIONS) {
     };
 
     span.onclick = function (e) {
+        e.stopPropagation();
+        if(mask.getAttribute('class').indexOf('active')>-1){
+            setActive(mask, false);
+        }else{
+            setTimeout(function(){
+                setActive(mask, true);
+            }, 1);
+        }
         
-        setTimeout(function(){
-            setActive(mask, 'toggle');
-        }, 1);
         
     };
 
