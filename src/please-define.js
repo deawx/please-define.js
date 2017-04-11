@@ -1,6 +1,6 @@
 /**
  * @name please-define.js
- * @version 1.1.2
+ * @version 1.1.3
  * @update Apr 11, 2017
  * @website https://github.com/earthchie/please-define.js
  * @author Earthchie http://www.earthchie.com/
@@ -203,8 +203,8 @@ window.PleaseDefine = window.PleaseDefine || function (SELECT, OPTIONS) {
     }
 
     input.onkeyup = function (e) {
+        
         var val = this.value,
-            keyCode = e.keyCode || e.which,
             options = SELECT.getElementsByTagName('option');
 
         if (typeof OPTIONS.filter === 'function') {
@@ -212,16 +212,22 @@ window.PleaseDefine = window.PleaseDefine || function (SELECT, OPTIONS) {
         }
 
         this.value = val;
-
-        if (keyCode === 13) { // if Enter, set value
-
-            setActive(mask, false);
-            SELECT.val(val);
-
-            return false;
-
-        }
+        
+        return false;
     };
+    
+    input.onkeypress = function(e){
+        var keyCode = e.keyCode || e.which;
+        if (keyCode === 13) {
+            
+            setActive(mask, false);
+            SELECT.val(this.value);
+            
+            return false;
+            
+        }
+        
+    }
 
     return SELECT;
 };
