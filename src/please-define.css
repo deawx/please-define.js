@@ -47,12 +47,12 @@
     overflow: hidden;
     position: absolute;
     z-index: 9;
-    border: 1px solid rgba(0,0,0,.1);
 }
 
 
 .please-define.active > ul {
     max-height: 1000px;
+    border: 1px solid rgba(0,0,0,.1);
 }
 .please-define.flip > ul{
     bottom: 100%;
